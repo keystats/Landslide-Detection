@@ -1,74 +1,156 @@
-🌍 Landslide Detection using Remote Sensing and Machine Learning
-This repository contains a complete pipeline for detecting landslides from satellite imagery using handcrafted features and classical machine learning models. It was developed for the Zindi Landslide Detection Challenge, a geospatial competition focused on identifying landslide-prone areas from .npy image data.
-📁 Contents
-•	LANDSLIDE_DETECTION.ipynb: Core notebook with data processing, feature engineering, model training, and visualization.
-•	Whole data is in the zindi link attached in the refference
-•	README.md: Project documentation.
-________________________________________
-📌 Problem Overview
-Landslides are hazardous geological phenomena with significant environmental and human impact. The challenge involves classifying image patches as landslide or non-landslide using satellite-based RGB image arrays.
-________________________________________
-🛠️ Approach Overview
-🧪 Data Format
-•	Images are stored as .npy files of shape (3, H, W) representing RGB channels.
-•	Each sample is uniquely identified and used for feature extraction and prediction.
-⚙️ Feature Engineering
-The model relies heavily on domain-aware handcrafted features, including:
-•	Spectral Features:
-o	NDVI approximation (from RGB only)
-•	Texture Features:
-o	GLCM (Gray-Level Co-occurrence Matrix)
-o	Sobel edge detection
-o	Laplacian features
-•	Statistical Features:
-o	Channel-wise mean, std, entropy, skewness, kurtosis
-•	Color/Pattern Features:
-o	Brown tone intensity
-o	Green dominance
-o	Presence of cloud-like structures or irregular shapes
-🗺️ Visual Insights
-The notebook includes rich visualizations of input images and extracted terrain patterns to understand distinguishing visual characteristics between landslide and non-landslide areas.
-🤖 Model Pipeline
-•	Core model: HistGradientBoostingClassifier (fast and accurate on tabular data)
-•	Output: Probabilities with manual threshold tuning (typically between 0.45 and 0.49)
-🚫 Deep Learning Experiments
-•	Attempts using CNNs and Vision Transformers (ViTs) were explored but yielded worse results than handcrafted features.
-•	These methods were excluded from the final pipeline due to underperformance on validation and leaderboard metrics.
-________________________________________
-📈 Performance
-Metric	Value
-F1 Score	0.8803 (Public LB)
-Accuracy	High (balanced P/R)
-Runtime	~5 minutes (Google Colab)
-________________________________________
-📌 Key Observations
-•	Landslide indicators: cloudiness, irregular-shaped rivers, brown/gray tones, rough terrain.
-•	Non-landslide indicators: sparkling green/blue hues, smooth/structured terrain, visible houses, large regular rivers.
-•	Integrating domain logic with statistical features significantly improves performance.
-________________________________________
-🚀 How to Use
-1.	Clone the repo:
-git clone https://github.com/keystats/Landslide-Detection.git
-2.	Upload your train_data/ and test_data/ .npy files.
-3.	Run the notebook:
-o	Open LANDSLIDE_DETECTION.ipynb in Jupyter or Google Colab
-o	Execute cells in sequence to extract features, train the model, and generate predictions
-4.	Modify threshold or feature flags if needed to tune performance.
-________________________________________
-🚧 Future Work
-•	Improve the F1-score from 0.8803 → 0.92+ using:
-o	Advanced hybrid models
-o	Better rule-based overrides
-o	Ensemble methods with smarter post-processing
-•	Incorporate elevation or geolocation data if available
-•	Build a lightweight UI for visual inspection and rule explanation
-________________________________________
-📚 References
-https://zindi.africa/competitions/classification-for-landslide-detection/data
-________________________________________
-👨‍💻 Author
-Keystats
-Jackson Kahungu Njeri
+
+
+# 🌍 Landslide Detection using Remote Sensing and Machine Learning
+
+This repository presents a complete pipeline for detecting landslides from satellite imagery using handcrafted features and classical machine learning models. It was developed for the **Zindi Landslide Detection Challenge**, which focuses on identifying landslide-prone areas from `.npy` image data.
+
+---
+
+## 📁 Contents
+
+* `LANDSLIDE_DETECTION.ipynb`: Core notebook with data processing, feature engineering, model training, and visualization.
+* `README.md`: Project documentation.
+* Dataset: Download available via the Zindi link in the [References](#-references) section.
+
+---
+
+## 📌 Problem Overview
+
+Landslides are hazardous geological events with significant environmental and human impacts.
+The challenge is to classify image patches as **landslide** or **non-landslide** using satellite-based RGB imagery in `.npy` format.
+
+---
+
+## 🛠️ Approach Overview
+
+### 🧪 Data Format
+
+* Images are stored as `.npy` files with shape `(3, H, W)`, representing RGB channels.
+* Each sample is uniquely identified and used for feature extraction and classification.
+
+### ⚙️ Feature Engineering
+
+The pipeline relies on **domain-informed, handcrafted features**, including:
+
+#### Spectral Features
+
+* NDVI approximation (from RGB only)
+
+#### Texture Features
+
+* Gray-Level Co-occurrence Matrix (GLCM)
+* Sobel edge detection
+* Laplacian filters
+
+#### Statistical Features
+
+* Channel-wise mean, standard deviation, entropy, skewness, and kurtosis
+
+#### Color & Pattern Features
+
+* Brown tone intensity
+* Green dominance
+* Cloud-like structure detection
+
+### 🗺️ Visual Insights
+
+Includes rich visualizations of input patches and extracted terrain features to help interpret model predictions.
+
+---
+
+## 🤖 Model Pipeline
+
+* **Core Model**: `HistGradientBoostingClassifier` (high performance on tabular features)
+* **Output**: Probabilities converted to binary classes using manually tuned thresholds (typically `0.45 - 0.49`)
+
+---
+
+## ❌ Deep Learning Experiments
+
+> Attempts using CNNs and Vision Transformers (ViTs) were explored but underperformed on validation and leaderboard metrics.
+
+* These were excluded in favor of classical models with engineered features.
+
+---
+
+## 📈 Performance Summary
+
+| Metric   | Value                              |
+| -------- | ---------------------------------- |
+| F1 Score | **0.8803** (Public Leaderboard)    |
+| Accuracy | High (balanced precision & recall) |
+| Runtime  | \~5 minutes (Google Colab)         |
+
+---
+
+## 📌 Key Observations
+
+* **Landslide Indicators**:
+
+  * Cloudiness
+  * Irregular-shaped rivers
+  * Brown/gray tone intensity
+  * Rough terrain
+
+* **Non-Landslide Indicators**:
+
+  * Vibrant green/blue hues
+  * Smooth, structured terrain
+  * Visible buildings
+  * Large, regular rivers
+
+> Integrating domain knowledge with statistical features significantly improves prediction accuracy.
+
+---
+
+## 🚀 How to Use
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/keystats/Landslide-Detection.git
+   ```
+
+2. **Upload your `train_data/` and `test_data/` `.npy` files.**
+
+3. **Run the notebook:**
+
+   * Open `LANDSLIDE_DETECTION.ipynb` in **Jupyter Notebook** or **Google Colab**
+   * Execute all cells to extract features, train the model, and make predictions
+
+4. **Optional Tuning:**
+
+   * Adjust thresholds or feature toggles for better performance.
+
+---
+
+## 🚧 Future Work
+
+* Improve F1 Score from **0.8803 → 0.92+** via:
+
+  * Advanced hybrid models
+  * Rule-based post-processing
+  * Ensemble techniques
+* Incorporate geolocation or elevation data
+* Build a lightweight UI for:
+
+  * Manual inspection
+  * Explaining predictions
+
+---
+
+## 📚 References
+
+* [Zindi Challenge – Classification for Landslide Detection](https://zindi.africa/competitions/classification-for-landslide-detection/data)
+
+---
+
+## 👨‍💻 Author
+
+**Keystats**
+*Jackson Kahungu Njeri*
 Data Scientist
- 
+
+---
+
 
